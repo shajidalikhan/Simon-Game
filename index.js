@@ -28,10 +28,6 @@ $(".btn").on("click", function (event) {
 });
 
 function checkAnswer(click) {
-  console.log(gamePattern);
-  console.log(userClickedPattern);
-  console.log(click);
-  console.log(level);
   if (userClickedPattern[click] != buttonColours[gamePattern[click]]) {
     failed();
   } else {
