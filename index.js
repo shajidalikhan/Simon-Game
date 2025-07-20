@@ -3,6 +3,7 @@ let userClickedPattern = [];
 let clickCount = 0;
 let buttonColours = ["red", "blue", "green", "yellow"];
 let level = 0;
+alert(navigator.userAgent);
 let device = detectDevice();
 if (device == "Mobile") {
   alert("Not ready for Mobile.")
