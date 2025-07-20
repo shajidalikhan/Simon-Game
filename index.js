@@ -3,25 +3,26 @@ let userClickedPattern = [];
 let clickCount = 0;
 let buttonColours = ["red", "blue", "green", "yellow"];
 let level = 0;
-let agent = navigator.userAgent;
-alert(agent);
 let device = detectDevice();
 if (device == "Mobile") {
-  alert("Not ready for Mobile.")
+  $("#level-title").text("Click here start");
+  $("h1").on("click", init.bind(event));
 } else {
-  $(document).on("keydown", function (event) {
-    if (level == 0) {
-      userClickedPattern = [];
-      clickCount = 0;
-      let randomChosenColor = nextSequence();
-      gamePattern.push(randomChosenColor);
-      $("." + buttonColours[randomChosenColor])
-        .fadeOut()
-        .fadeIn();
-      let sound = playSound(buttonColours[randomChosenColor]);
-      sound.play();
-    }
-  });
+  $(document).on("keydown", init.bind(event));
+}
+
+function init(event) {
+  if (level == 0) {
+    userClickedPattern = [];
+    clickCount = 0;
+    let randomChosenColor = nextSequence();
+    gamePattern.push(randomChosenColor);
+    $("." + buttonColours[randomChosenColor])
+      .fadeOut()
+      .fadeIn();
+    let sound = playSound(buttonColours[randomChosenColor]);
+    sound.play();
+  }
 }
 
 $(".btn").on("click", function (event) {
@@ -46,7 +47,8 @@ function detectDevice() {
 
 function checkAnswer(click) {
   if (userClickedPattern[click] != buttonColours[gamePattern[click]]) {
-    failed();
+    if(device=="Mobile")failedMobile();
+    else failed();
   } else {
     if (click + 1 == level) setTimeout(sucess, 250);
   }
@@ -70,6 +72,17 @@ function sucess() {
 
 function failed() {
   $("#level-title").text("Game Over, Press any key to restart.");
+  $("body").addClass("game-over");
+  let wrongSound = playSound("wrong");
+  wrongSound.play();
+  setTimeout(function () {
+    $("body").removeClass("game-over");
+  }, 100);
+  startOver();
+}
+
+function failedMobile() {
+  $("#level-title").text("Game Over, Click here restart.");
   $("body").addClass("game-over");
   let wrongSound = playSound("wrong");
   wrongSound.play();

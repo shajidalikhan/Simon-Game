@@ -73,7 +73,23 @@ body {
   }
 }
 
-@media (max-width: 399px) {
+@media (min-width:360px) and (max-width: 399px) {
+  #level-title {
+    font-size: 2rem;
+    margin: 5%;
+  }
+  .container {
+    width: 100%;
+  }
+  .btn {
+    margin: 5px;
+    height: 150px;
+    width: 150px;
+    border: 5px solid black;
+  }
+}
+
+@media (max-width:359px) {
   #level-title {
     font-size: 2rem;
     margin: 5%;
