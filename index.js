@@ -3,19 +3,24 @@ let userClickedPattern = [];
 let clickCount = 0;
 let buttonColours = ["red", "blue", "green", "yellow"];
 let level = 0;
-$(document).on("keydown", function (event) {
-  if (level == 0) {
-    userClickedPattern = [];
-    clickCount = 0;
-    let randomChosenColor = nextSequence();
-    gamePattern.push(randomChosenColor);
-    $("." + buttonColours[randomChosenColor])
-      .fadeOut()
-      .fadeIn();
-    let sound = playSound(buttonColours[randomChosenColor]);
-    sound.play();
-  }
-});
+let device = detectDevice();
+if (device == "Mobile") {
+  alert("Not ready for Mobile.")
+} else {
+  $(document).on("keydown", function (event) {
+    if (level == 0) {
+      userClickedPattern = [];
+      clickCount = 0;
+      let randomChosenColor = nextSequence();
+      gamePattern.push(randomChosenColor);
+      $("." + buttonColours[randomChosenColor])
+        .fadeOut()
+        .fadeIn();
+      let sound = playSound(buttonColours[randomChosenColor]);
+      sound.play();
+    }
+  });
+}
 
 $(".btn").on("click", function (event) {
   let userChosenColour = this.id;
@@ -26,6 +31,16 @@ $(".btn").on("click", function (event) {
   checkAnswer(clickCount);
   clickCount++;
 });
+
+function detectDevice() {
+  if (
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    )
+  )
+    return "Mobile";
+  else return "Not-Mobile";
+}
 
 function checkAnswer(click) {
   if (userClickedPattern[click] != buttonColours[gamePattern[click]]) {
@@ -39,14 +54,14 @@ function sucess() {
   clickCount = 0;
   let randomChosenColor = nextSequence();
   gamePattern.push(randomChosenColor);
-  for(let i=0; i<gamePattern.length; i++) {
-      setTimeout(function(){
-        $("." + buttonColours[gamePattern[i]])
-          .fadeOut(200)
-          .fadeIn(200);
-        let sound = playSound(buttonColours[gamePattern[i]]);
-        sound.play();
-      },400*i);
+  for (let i = 0; i < gamePattern.length; i++) {
+    setTimeout(function () {
+      $("." + buttonColours[gamePattern[i]])
+        .fadeOut(200)
+        .fadeIn(200);
+      let sound = playSound(buttonColours[gamePattern[i]]);
+      sound.play();
+    }, 400 * i);
   }
   userClickedPattern = [];
 }
